@@ -1,0 +1,47 @@
+{% include "header.html" with title="Grades - CS 3550" %}
+<script type="module">
+    import { $ } from "/static/jquery/src/jquery.js";
+    import { make_table_sortable } from "/static/main.js";
+    make_table_sortable($("table"))
+</script>
+<main>
+    <div class="title">
+        <h2>Your grades</h2>
+    </div>
+    <div class="action-card">
+        <div>
+            <p>Currently logged in as {{user}}.</p>
+            <a href="/profile/logout" role="button">Log out</a>
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Assignment</th>
+                {% if is_student %}
+                <th class="numbercolumn sortable">Score</th>
+                {% else %}
+                <th class="numbercolumn sortable">Graded</th>
+                {% endif %}
+            </tr>
+        </thead>
+        {% for assignment in assignments %}
+        <tr data-index="{{forloop.counter}}">
+            <td><a href="/{{assignment.id}}" title="links to assignment {{assignment.id}}">{{assignment.title}}</a></td>
+            <td class="numbercolumn" data-value="{{assignment.status}}" data-weight="{{assignment.weight}}">{{assignment.status}}</td>
+        </tr>
+        {% endfor %}
+        {% if is_student %}
+        <script type="module">
+            import { make_grade_hypothesized } from "/static/main.js";
+            make_grade_hypothesized($("table"))
+        </script>
+        <tfoot>
+            <tr>
+                <td>Final Grade</td>
+                <td class="numbercolumn" data-value="{{totalgrade|floatformat:2}}%">{{totalgrade|floatformat:2}}%</td>
+            </tr>
+        </tfoot>
+        {% endif %}
+    </table>
+</main>

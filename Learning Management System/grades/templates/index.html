@@ -1,0 +1,43 @@
+{% include "header.html" with title=assignment.title %}
+<script type="module">
+    import { $ } from "/static/jquery/src/jquery.js";
+    import { make_form_async } from "/static/main.js";
+    make_form_async($("form"))
+</script>
+<main>
+    <div class="title">
+        <h2>{{assignment.title}}</h2>
+        <p>Due {{assignment.deadline|date:"F d"}}, total of {{assignment.points}} point{{assignment.points|pluralize}}</p>
+    </div>
+    <div class="action-card">
+        {% if is_ta == True %}
+        <p>Currently {{totalsubmissions}}/{{students}} submission{{students|pluralize}}</p>
+        <div>
+            <p>{{mysubmissions}} submission{{mysubmissions|pluralize}} assigned to {{user}}</p>
+            <a href="/{{assignment.id}}/submissions" title="assignment submission page">Grade</a>
+        </div>
+        {% else %}
+        {% if status == "graded" %}
+        <p>Your submission, <a href={{submission.file.url}}>{{submission.file.url}}</a> received {{submission.score}}/{{assignment.points}} points &lpar; {% widthratio submission.score assignment.points 100 %}%&rpar;</p>
+        {% elif status == "ungraded" %}
+        <p>Your Submission <a href={{submission.file.url}}>{{submission.file.url}}</a>, is being graded</p>
+        {% elif status == "submitted" %}
+        <p>Your current submission is <a href={{submission.file.url}}>{{submission.file.url}}</a></p>
+        {% elif status == "notsubmitted" %}
+        <p>No current submission</p>
+        {% elif status == "missing" %}
+        <p>You did not submit this assignment and received 0 points</p>
+        {% endif %}
+        {% if status == "notsubmitted" or status == "submitted" %}
+        <form method="post" enctype="multipart/form-data" action="/{{assignment.id}}/submit/">
+            <input type="file" name="file" id="file">
+            <button>Submit</button>
+            {% csrf_token %}
+        </form>
+        {% endif %}
+        {% endif %}
+    </div>
+
+    <h3>Description</h3>
+    {{assignment.description|safe}}
+</main>

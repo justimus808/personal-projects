@@ -1,0 +1,21 @@
+{% include "header.html" with title="Log in page - CS 3550"%}
+<main>
+    <div class="title">
+        <h2>Log in</h2>
+    </div>
+    <form class="login" method="post" action="/profile/login/">
+        <output>{{error}}</output>
+        <div>
+            <label for="Username"> Username:</label>
+            <input type="text" id="Username" autofocus tabindex="0" name="username">
+        </div>
+        <div>
+            <label for="Password">Password:</label>
+            <input type="password" id="Password" tabindex="0" name="password">
+        </div>
+        <input type="hidden" id="redirect" name="next" value="{{next}}">
+        <button tabindex="0">Log in</button>
+        {% csrf_token %}
+    </form>
+    
+</main>

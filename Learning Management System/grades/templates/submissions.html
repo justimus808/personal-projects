@@ -1,0 +1,29 @@
+{% include "header.html" with title="Your Submissions - CS 3550" %}
+<main>
+    <div class="title">
+        <h2>{{assignment.title}}</h2>
+        <p>All grades out of {{assignment.points}}</p>
+    </div>
+    <form action="/{{assignment.id}}/grade" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Submission</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            {% for submission in submissions %}
+            <tr>
+                <td>{{submission.author}}</td>
+                <td><a href="{{submission.file.url}}">Submission</a></td>
+                <td><input type="number" name="grade-{{submission.id}}" title="grade of assignment" value="{{submission.score}}"></td>
+            </tr>
+            {% endfor %}
+
+        </table>
+        <button>Submit</button>
+        <a href="/{{assignment.id}}" role="button">Back to assignment</a>
+        {% csrf_token %}
+    </form>
+</main>

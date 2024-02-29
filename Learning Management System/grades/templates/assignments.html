@@ -1,0 +1,27 @@
+{% include "header.html" with title="Assignments List - CS3550" %}
+<script type="module">
+    import { $ } from "/static/jquery/src/jquery.js";
+    import { make_table_sortable } from "/static/main.js";
+    make_table_sortable($("table"))
+</script>
+<main>
+    <div class="title">
+        <h2>All assignments</h2>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Assignment</th>
+                <th class="sortable">Due date</th>
+                <th class="numbercolumn sortable">Weight</th>
+            </tr>
+        </thead>
+        {% for assignment in assignments %}
+            <tr data-index="{{forloop.counter}}">
+                <td><a href='/{{assignment.pk}}' title="links to assignment {{assignment.id}}">{{assignment.title}}</a></td>
+                <td data-value="{{assignment.deadline|date:'U'}}">{{assignment.deadline|date:"M d"}}</td>
+                <td class="numbercolumn" data-value="{{assignment.weight}}">{{assignment.weight}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</main>
