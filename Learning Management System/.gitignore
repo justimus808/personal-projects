@@ -1,0 +1,13 @@
+uploads/*
+db.sqlite3
+*.pyc
+.DS_Store
+autotester
+*~
+s3_TkkyFC1.txt
+s2_M347edw.txt
+s1_ZKYf5AC.txt
+LoanPro_Design_Document.pdf
+h2s1_k9zo8TE.txt
+h1s2_s3sp3EM.txt
+h1s1_1feMwRl.txt
